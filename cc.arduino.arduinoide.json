@@ -23,11 +23,11 @@
         "/lib/pkgconfig",
         "/share/aclocal",
         "/share/info",
-        "/share/man",
-        "/var/lib/openjdk8"
+        "/share/man"
     ],
     "modules": [
         {
+            
             "name": "openjdk",
             "buildsystem": "simple",
             "sources":[
@@ -54,6 +54,7 @@
             ]
         },
         {
+            
             "name": "arduino",
             "buildsystem": "simple",
             "build-options": {
@@ -74,7 +75,8 @@
                 "cp -a /app/Arduino/lib/icons/* /app/share/icons/hicolor",
                 "install -D /app/Arduino/lib/desktop.template /app/share/applications/cc.arduino.arduinoide.desktop",
                 "sed -i -e 's|<BINARY_LOCATION>|arduino|' -e 's|<ICON_NAME>|cc.arduino.arduinoide|' /app/share/applications/cc.arduino.arduinoide.desktop",
-                "install -D /app/Arduino/lib/appdata.xml /app/share/metainfo/cc.arduino.arduinoide.appdata.xml"
+                "install -D /app/Arduino/lib/appdata.xml /app/share/metainfo/cc.arduino.arduinoide.appdata.xml",
+                "rm -rf /var/lib/openjdk8"
             ],
             "subdir": "build",
             "sources": [
