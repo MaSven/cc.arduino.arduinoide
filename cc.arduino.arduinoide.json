@@ -3,9 +3,6 @@
     "runtime": "org.freedesktop.Platform",
     "runtime-version": "1.6",
     "sdk": "org.freedesktop.Sdk",
-    "sdk-extensions": [
-        "org.freedesktop.Sdk.Extension.openjdk10"
-    ],
     "rename-icon": "arduino",
     "build-options": {
         "cflags": "-O2 -g",
@@ -26,14 +23,34 @@
         "/lib/pkgconfig",
         "/share/aclocal",
         "/share/info",
-        "/share/man"
+        "/share/man",
+        "/var/lib/openjdk8"
     ],
     "modules": [
         {
             "name": "openjdk",
             "buildsystem": "simple",
+            "sources":[
+                {
+                    "type": "archive",
+                    "url": "https://api.adoptopenjdk.net/v2/binary/releases/openjdk8?openjdk_impl=hotspot&os=linux&arch=x64&release=latest&type=jdk",
+                    "only-arches": ["x86_64"],
+                    "dest-filename": "openjdk8.tar.gz",
+                    "sha256": "228d85bef36f5893885b52cb571101418c4f8b87c689996ace55d85b720b2a12"
+                                       
+                },
+                {
+                    "type": "archive",
+                    "url": "https://api.adoptopenjdk.net/v2/binary/releases/openjdk8?openjdk_impl=hotspot&os=linux&arch=aarch64&release=latest&type=jdk",
+                    "only-arches": ["arm"],
+                    "dest-filename": "openjdk8.tar.gz",
+                    "sha256": "6b35092d97779a970c48b27e70d88e5f459444a6845191cf57677df4bc99e37e"
+                    
+                }
+            ],
             "build-commands": [
-                "/usr/lib/sdk/openjdk10/install.sh"
+                "mv jdk8* openjdk8",
+                "mv openjdk8 /var/lib/"
             ]
         },
         {
@@ -41,8 +58,8 @@
             "buildsystem": "simple",
             "build-options": {
                 "env": {
-                    "PATH": "/usr/bin:/usr/lib/sdk/openjdk10/jvm/openjdk-10/bin",
-                    "JAVA_HOME": "/usr/lib/sdk/openjdk10/jvm/openjdk-10"
+                    "PATH": "/usr/bin:/var/lib/openjdk8/bin",
+                    "JAVA_HOME": "/var/lib/openjdk8"
                 }
             },
             "build-commands": [
@@ -50,7 +67,8 @@
                 "mkdir -p /app/bin /app/Arduino",
                 "cp -a linux/work/* /app/Arduino",
                 "ln -s /app/Arduino/arduino /app/bin",
-                "ln -s /app/jre /app/Arduino",
+                "mv /var/lib/openjdk8/jre /var/lib/",
+                "ln -s /var/lib/jre /app/Arduino",
                 "mv /app/Arduino/jre /app/Arduino/java",
                 "mkdir -p /app/share/icons/hicolor",
                 "cp -a /app/Arduino/lib/icons/* /app/share/icons/hicolor",

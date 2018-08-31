@@ -1,0 +1,8 @@
+
+# Created by https://www.gitignore.io/api/flatpak
+
+#!! ERROR: flatpak is undefined. Use list command to see defined gitignore types !!#
+.flatpak-builder
+build-dir
+
+# End of https://www.gitignore.io/api/flatpak
